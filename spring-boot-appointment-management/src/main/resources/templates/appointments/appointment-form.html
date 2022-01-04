@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Save Appointment</title>
+
+    <style>
+        .error {
+            color:red;
+            }
+    </style>
+</head>
+<header>
+    <!-- Add a logout button -->
+    <div class="row">
+        <div class="col-sm-11"></div>
+        <div class="col-sm-1">
+            <form th:action="@{/logout}"
+                  method="POST">
+
+                <input type="submit" value="Logout" />
+
+            </form>
+        </div>
+    </div>
+    <hr>
+</header>
+
+<body>
+
+<div class="container">
+
+    <h3>Appointment Details</h3>
+    <hr>
+
+    <form action="#" th:action="@{/appointments/save(patientId=${patientId})}"
+          th:object="${appointment}" method="POST">
+
+        <!-- Add hidden form field to handle update -->
+<!--        <input type="hidden" th:field="*{id}" />-->
+        <input type="hidden" th:field="*{id}" />
+
+<!--        <input type="text" th:field="*{doctorName}"-->
+<!--               class="form-control mb-4 col-4" placeholder="Doctor">-->
+<!--        <p th:if="${#fields.hasErrors('doctorName')}" th:errorclass="error" th:errors="*{doctorName}" />-->
+
+        <div class="form-group">
+            <select name="doctorName" th:field="*{doctorName}" class="form-control mb-4 col-4">
+                <option th:each="doctorName : ${doctorList}"
+                        th:value="${doctorName}"
+                        th:text="${doctorName}"
+                />
+            </select>
+            <p th:if="${#fields.hasErrors('doctorName')}" th:errorclass="error" th:errors="*{doctorName}" />
+        </div>
+
+
+
+        <input type="date" th:field="*{appointmentDate}"
+               class="form-control mb-4 col-4" placeholder="Date">
+        <p th:if="${#fields.hasErrors('appointmentDate')}" th:errorclass="error" th:errors="*{appointmentDate}" />
+
+<!--        <input type="text" th:field="*{appointmentTime}"-->
+<!--               class="form-control mb-4 col-4" placeholder="Time">-->
+<!--        <p th:if="${#fields.hasErrors('appointmentTime')}" th:errorclass="error" th:errors="*{appointmentTime}" />-->
+
+        <div class="form-group">
+            <select name="appointmentTime" th:field="*{appointmentTime}" class="form-control mb-4 col-4">
+                <option th:each="appointmentTime : ${timeSlotList}"
+                        th:value="${appointmentTime}"
+                        th:text="${appointmentTime}"
+                />
+            </select>
+            <p th:if="${#fields.hasErrors('appointmentTime')}" th:errorclass="error" th:errors="*{appointmentTime}" />
+        </div>
+
+        <input type="text" th:field="*{reason}"
+               class="form-control mb-4 col-4" placeholder="Reason">
+        <p th:if="${#fields.hasErrors('reason')}" th:errorclass="error" th:errors="*{reason}" />
+
+        <button type="submit" class="btn btn-info col-2">Save</button>
+
+    </form>
+
+    <hr>
+
+    <div sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/appointments/list(patientId=${patientId})}">Back to Patients List</a>
+<!--        <a th:href="@{/patients/list}">Back to Patients List</a>-->
+    </div>
+
+
+    <div sec:authorize="hasRole('PATIENT')">
+        <a th:href="@{/appointments/list(patientId=${patientId})}">Back to Details</a>
+        <!--        <a th:href="@{/patients/list}">Back to Patients List</a>-->
+    </div>
+
+</div>
+</body>
+
+</html>

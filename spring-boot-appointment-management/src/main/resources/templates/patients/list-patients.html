@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Patients List</title>
+</head>
+<header>
+    <!-- Add a logout button -->
+    <div class="row">
+    <div class="col-sm-11"></div>
+    <div class="col-sm-1">
+    <form th:action="@{/logout}"
+          method="POST">
+
+        <input type="submit" value="Logout" />
+
+    </form>
+    </div>
+    </div>
+    <hr>
+</header>
+
+<body>
+
+<div class="container">
+
+    <h3>Patients List</h3>
+    <hr>
+
+    <!-- Add a button -->
+    <a th:href="@{/patients/showFormForAdd}"
+       class="btn btn-primary btn-sm mb-3">
+        Add Patient
+    </a>
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-light">
+        <tr>
+            <th><center>Patient Id</center></th>
+            <th><center>First Name</center></th>
+<!--            <th><center>Last Name</center></th>-->
+<!--            <th><center>Email</center></th>-->
+            <th><center>Patient Details</center></th>
+            <th><center>Appointments</center></th>
+            <th><center>Action</center></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempPatient : ${patients}">
+
+            <td style="text-align: center" th:text="${tempPatient.id}" />
+            <td style="text-align: center" th:text="${tempPatient.firstName}" />
+<!--            <td style="text-align: center" th:text="${tempPatient.lastName}" />-->
+<!--            <td style="text-align: center" th:text="${tempPatient.email}" />-->
+
+            <td style="text-align: center">
+                <!-- Add "details" button/link -->
+                <a th:href="@{/patients/showPatientDetails(patientId=${tempPatient.id})}"
+                   class="btn btn-info btn-sm">
+                    Info
+                </a>
+            </td>
+
+            <td style="text-align: center">
+                <!-- Add "appointment" button/link -->
+                <a th:href="@{/appointments/list(patientId=${tempPatient.id})}"
+                   class="btn btn-info btn-sm">
+                    View
+                </a>
+            </td>
+
+            <td style="text-align: center">
+                <!-- Add "update" button/link -->
+                <a th:href="@{/patients/showFormForUpdate(patientId=${tempPatient.id})}"
+                   class="btn btn-success btn-sm">
+                    Update
+                </a>
+
+                <!-- Add "delete" button/link -->
+                <a th:href="@{/patients/delete(patientId=${tempPatient.id})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure you want to delete this Patient?'))) return false">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
+
+

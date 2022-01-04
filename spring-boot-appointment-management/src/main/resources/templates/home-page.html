@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Redirect</title>
+</head>
+
+<body>
+<div sec:authorize="hasRole('ADMIN')">
+    <meta http-equiv="refresh"
+          content="0; URL='patients/list'">
+</div>
+
+<div sec:authorize="hasRole('PATIENT')">
+    <meta http-equiv="refresh"
+          content="0; URL='users/showPatientDetails'">
+</div>
+</body>
+</html>

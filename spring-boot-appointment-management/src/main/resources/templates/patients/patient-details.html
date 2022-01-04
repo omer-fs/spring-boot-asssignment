@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Patient Details</title>
+</head>
+
+<header>
+    <!-- Add a logout button -->
+    <div class="row">
+        <div class="col-sm-11">
+            <div sec:authorize="hasRole('PATIENT')">
+                <h3>WELCOME <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h3>
+            </div>
+        </div>
+
+        <div class="col-sm-1">
+            <form th:action="@{/logout}"
+                  method="POST">
+
+                <input type="submit" value="Logout" />
+
+            </form>
+        </div>
+    </div>
+    <hr>
+</header>
+
+<body>
+
+<div class="container">
+
+    <h3>Patient Details</h3>
+    <hr>
+
+    <form action="#" th:action="@{/patients/save}"
+          th:object="${patient}" method="POST">
+
+        <!-- Add hidden form field to handle update -->
+        <input type="hidden" th:field="*{id}" />
+
+        <label>First Name</label>
+        <input type="text" th:field="*{firstName}" readonly="readonly"
+               class="form-control mb-4 col-4" placeholder="First name">
+
+        <label>Last Name</label>
+        <input type="text" th:field="*{lastName}" readonly="readonly"
+               class="form-control mb-4 col-4" placeholder="Last name">
+
+        <label>Email</label>
+        <input type="text" th:field="*{email}" readonly="readonly"
+               class="form-control mb-4 col-4" placeholder="Email">
+
+        <label>Age</label>
+        <input type="text" th:field="*{age}" readonly="readonly"
+               class="form-control mb-4 col-4" placeholder="Age">
+
+        <label>Phone Number</label>
+        <input type="text" th:field="*{phoneNumber}" readonly="readonly"
+               class="form-control mb-4 col-4" placeholder="Phone Number">
+
+
+
+    </form>
+
+    <hr>
+    <div sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/patients/list}">Back to Patients List</a>
+    </div>
+
+    <div sec:authorize="hasRole('PATIENT')">
+
+        <a th:href="@{/patients/showFormForUpdate(patientId=${param.patientId})}"
+           class="btn btn-success btn-sm">
+            Update
+        </a>
+        <!-- Add "appointment" button/link -->
+
+        <a th:href="@{/appointments/list(patientId=${param.patientId})}"
+           class="btn btn-primary btn-sm">
+            View Appointments
+        </a>
+    </div>
+
+    <!--Displays logged in Username
+    <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+    -->
+
+</div>
+</body>
+
+</html>
