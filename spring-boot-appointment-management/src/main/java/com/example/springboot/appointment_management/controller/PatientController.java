@@ -99,7 +99,7 @@ public class PatientController {
             // save the patient
             patientService.savePatient(thePatient);
 
-            if(username=="receptionist@admin.com")
+            if(username.equals("receptionist@admin.com"))
                 return "redirect:/patients/list";
 
 
