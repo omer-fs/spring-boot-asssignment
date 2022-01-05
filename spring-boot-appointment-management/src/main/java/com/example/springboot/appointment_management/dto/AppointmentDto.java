@@ -1,8 +1,12 @@
 package com.example.springboot.appointment_management.dto;
 
-import javax.persistence.Column;
+import lombok.*;
 import javax.validation.constraints.Size;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class AppointmentDto {
 
     private int id;
@@ -19,54 +23,4 @@ public class AppointmentDto {
     @Size(min=2, message = "Reason should be at least 2 characters")
     private String reason;
 
-    public AppointmentDto() {
-    }
-
-    public AppointmentDto(int id, String doctorName, String appointmentDate, String appointmentTime, String reason) {
-        this.id = id;
-        this.doctorName = doctorName;
-        this.appointmentDate = appointmentDate;
-        this.appointmentTime = appointmentTime;
-        this.reason = reason;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDoctorName() {
-        return doctorName;
-    }
-
-    public void setDoctorName(String doctorName) {
-        this.doctorName = doctorName;
-    }
-
-    public String getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(String appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
-
-    public String getAppointmentTime() {
-        return appointmentTime;
-    }
-
-    public void setAppointmentTime(String appointmentTime) {
-        this.appointmentTime = appointmentTime;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
 }

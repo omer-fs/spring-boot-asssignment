@@ -1,7 +1,11 @@
 package com.example.springboot.appointment_management.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -9,12 +13,18 @@ import java.util.List;
 
 @Entity
 @Table(name="users")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Users {
 
     @Id
     @Column(name="username", unique = true)
     @NotEmpty(message = "Should not be empty")
-    @Email(regexp = "^(.+)@(.+)$", message = "Invalid email")
+//    @Email(regexp =
+//    "^(.+)@(.+)$", message = "Invalid email") commented due to security issue in sonarcloud report
+    @NotEmpty(message = "Email should not be null")
     private String username;
 
     @Column(name="password")
@@ -30,9 +40,6 @@ public class Users {
     @JoinColumn(name = "username")
     private List<Authorities> authorities;
 
-    public Users() {
-
-    }
 
     public Users(String username, String password, short enabled) {
         this.username = username;
@@ -40,29 +47,6 @@ public class Users {
         this.enabled = enabled;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public short getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(short enabled ) {
-        this.enabled = enabled;
-    }
 
     @Override
     public String toString() {

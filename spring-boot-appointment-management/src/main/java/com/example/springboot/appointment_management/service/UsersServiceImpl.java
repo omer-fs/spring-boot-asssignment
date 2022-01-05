@@ -2,6 +2,7 @@ package com.example.springboot.appointment_management.service;
 
 import com.example.springboot.appointment_management.dao.UsersRepository;
 import com.example.springboot.appointment_management.entity.Users;
+import com.example.springboot.appointment_management.exception.MyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,7 +42,7 @@ public class UsersServiceImpl implements UsersService{
         }
         else {
             // could not find the patient
-            throw new RuntimeException("Could not find User - " + theUser);
+            throw new MyException("Could not find User - " + theUser);
         }
 
         return theUser;

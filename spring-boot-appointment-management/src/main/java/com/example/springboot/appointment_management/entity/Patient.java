@@ -1,16 +1,23 @@
 package com.example.springboot.appointment_management.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="patient")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Patient {
 
     @Id
@@ -26,7 +33,8 @@ public class Patient {
     @Column(name="last_name")
     private String lastName;
 
-    @Email(regexp = "^(.+)@(.+)$", message = "Invalid email")
+//    @Email(regexp = "^(.+)@(.+)$", message = "Invalid email") commented due to security issue with sonar cloud
+    @NotEmpty(message = "Email should not be null")
     @Column(name="email", unique = true)
     private String email;
 
@@ -44,9 +52,6 @@ public class Patient {
     @JoinColumn(name = "patient_id")
     private List<Appointment> appointments;
 
-    public Patient() {
-
-    }
 
     public Patient(int id, String firstName, String lastName, String email, String age, String phoneNumber) {
         this.id = id;
@@ -57,64 +62,12 @@ public class Patient {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
+    public Patient(String firstName, String lastName, String email, String age, String phoneNumber) {
         this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
         this.age = age;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "Patient{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", age='" + age + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
     }
 
     public List<Appointment> getAppointment() {

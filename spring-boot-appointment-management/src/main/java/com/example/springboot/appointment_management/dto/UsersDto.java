@@ -1,8 +1,18 @@
 package com.example.springboot.appointment_management.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsersDto {
 
     @NotEmpty(message = "Should not be empty")
@@ -14,40 +24,4 @@ public class UsersDto {
 
     private short enabled;
 
-
-    // no args constructor
-    public UsersDto() {
-    }
-
-    // all args constructor
-
-    public UsersDto(String username, String password, short enabled) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public short getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(short enabled) {
-        this.enabled = enabled;
-    }
 }

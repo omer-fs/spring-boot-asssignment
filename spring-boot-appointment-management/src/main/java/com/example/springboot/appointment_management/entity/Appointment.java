@@ -2,11 +2,15 @@ package com.example.springboot.appointment_management.entity;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.Positive;
+import lombok.*;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="appointment")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class Appointment {
 
     @Id
@@ -30,9 +34,6 @@ public class Appointment {
     @Column(name="reason")
     private String reason;
 
-    public Appointment() {
-
-    }
 
     public Appointment(int id, String doctorName, String appointmentDate, String appointmentTime, String reason) {
         this.id = id;
@@ -42,54 +43,10 @@ public class Appointment {
         this.reason = reason;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDoctorName() {
-        return doctorName;
-    }
-
-    public void setDoctorName(String doctorName) {
+    public Appointment(String doctorName, String appointmentDate, String appointmentTime, String reason) {
         this.doctorName = doctorName;
-    }
-
-    public String getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(String appointmentDate) {
         this.appointmentDate = appointmentDate;
-    }
-
-    public String getAppointmentTime() {
-        return appointmentTime;
-    }
-
-    public void setAppointmentTime(String appointmentTime) {
         this.appointmentTime = appointmentTime;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
         this.reason = reason;
-    }
-
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "id=" + id +
-                ", doctorName='" + doctorName + '\'' +
-                ", appointmentDate='" + appointmentDate + '\'' +
-                ", appointmentTime='" + appointmentTime + '\'' +
-                ", reason='" + reason + '\'' +
-                '}';
     }
 }

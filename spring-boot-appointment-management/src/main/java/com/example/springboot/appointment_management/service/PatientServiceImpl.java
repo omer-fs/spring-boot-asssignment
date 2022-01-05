@@ -2,8 +2,8 @@ package com.example.springboot.appointment_management.service;
 
 import com.example.springboot.appointment_management.dao.PatientRepository;
 import com.example.springboot.appointment_management.entity.Patient;
+import com.example.springboot.appointment_management.exception.MyException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class PatientServiceImpl implements PatientService{
         }
         else {
             // could not find the patient
-            throw new RuntimeException("Could not find the Patient Id - " + theId);
+            throw new MyException("Could not find the Patient Id - " + theId);
         }
 
         return thePatient;
@@ -53,7 +53,7 @@ public class PatientServiceImpl implements PatientService{
         }
         else {
             // could not find the patient
-            throw new RuntimeException("Could not find the Patient - " + theUsername);
+            throw new MyException("Could not find the Patient - " + theUsername);
         }
 
         return thePatient;

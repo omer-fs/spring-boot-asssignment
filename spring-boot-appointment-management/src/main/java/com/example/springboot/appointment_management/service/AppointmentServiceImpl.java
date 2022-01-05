@@ -2,6 +2,7 @@ package com.example.springboot.appointment_management.service;
 
 import com.example.springboot.appointment_management.dao.AppointmentRepository;
 import com.example.springboot.appointment_management.entity.Appointment;
+import com.example.springboot.appointment_management.exception.MyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class AppointmentServiceImpl implements AppointmentService{
         }
         else {
             // we didn't find the appointment for patient
-            throw new RuntimeException("Could not find the Appointment id - "+ theId);
+            throw new MyException("Could not find the Appointment id - "+ theId);
         }
 
         return theAppointment;
