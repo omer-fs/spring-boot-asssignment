@@ -6,6 +6,7 @@ import com.example.springboot.appointment_management.dto.PatientDto;
 import com.example.springboot.appointment_management.entity.Patient;
 import com.example.springboot.appointment_management.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -84,7 +85,9 @@ public class PatientController {
     }
 
     @PostMapping("/save")
-    public String savePatient(@Valid @ModelAttribute("patient") PatientDto patientDto, BindingResult bindingResult, Model theModel) {
+    public String savePatient(@Valid @ModelAttribute("patient") PatientDto patientDto, BindingResult bindingResult, Model theModel, Authentication authentication) {
+
+        String username = authentication.getName();
 
         if (bindingResult.hasErrors()) {
             return VIEW_PAGE;
@@ -96,8 +99,16 @@ public class PatientController {
             // save the patient
             patientService.savePatient(thePatient);
 
+            if(username=="receptionist@admin.com")
+                return "redirect:/patients/list";
+
+
+            return "redirect:/patients/showPatientDetails?patientId=" + thePatient.getId();
+
             // use a redirect to prevent duplicate submissions
-            return "redirect:/patients/list";
+
+
+
         }
     }
 

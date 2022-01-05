@@ -5,7 +5,7 @@ import com.example.springboot.appointment_management.controller.PatientControlle
 import com.example.springboot.appointment_management.dao.PatientRepository;
 import com.example.springboot.appointment_management.entity.Patient;
 import com.example.springboot.appointment_management.service.PatientService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-public class PatientControllerTests {
+class PatientControllerTests {
 
     private MockMvc mockMvc;
 
@@ -43,13 +43,13 @@ public class PatientControllerTests {
 
     @Test
     void listPatient_displaysAllPatients() throws Exception {
-        Patient patient1 = new Patient(1, "Sammy", "William", "sam@gmail.com", "21", "1234987655");
+        Patient patient1 = new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655");
 
         Patient patient2 = new Patient(2, "Bruce", "Henry", "Bruce@gmail.com", "34", "8765512349");
 
         when(patientService.findAllPatients()).thenReturn(Arrays.asList(patient1, patient2));
 
-        this.mockMvc.perform(get("patients/list"))
+        this.mockMvc.perform(get("/patients/list"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("patients", hasSize(2)))
                 .andExpect(view().name("patients/list-patients"));
