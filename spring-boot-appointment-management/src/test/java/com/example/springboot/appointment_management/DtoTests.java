@@ -2,6 +2,7 @@ package com.example.springboot.appointment_management;
 
 import com.example.springboot.appointment_management.dto.AppointmentDto;
 import com.example.springboot.appointment_management.dto.PatientDto;
+import com.example.springboot.appointment_management.dto.UsersDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -53,6 +54,12 @@ class DtoTests {
     }
 
     @Test
+    void patientDtoConstructor_Test() {
+        PatientDto patientDto = new PatientDto(1, "Sammy", "William", "sammy@gmail.com", "22","1234567890");
+        assertEquals("Sammy", patientDto.getFirstName());
+    }
+
+    @Test
     void doctorId_Test() {
         AppointmentDto appointmentDto = new AppointmentDto();
         appointmentDto.setId(1);
@@ -87,4 +94,37 @@ class DtoTests {
         assertEquals("Fever",appointmentDto.getReason());
     }
 
+    @Test
+    void appointmentDtoConstructor_Test() {
+        AppointmentDto appointmentDto = new AppointmentDto(1, "Dr. Samuel Jackson", "11/12/2021","10:30 AM to 12:30 PM","Fever");
+        assertEquals("Dr. Samuel Jackson", appointmentDto.getDoctorName());
+    }
+
+
+    @Test
+    void usersUsername_Test() {
+        UsersDto usersDto = new UsersDto();
+        usersDto.setUsername("sammy@gmail.com");
+        assertEquals("sammy@gmail.com", usersDto.getUsername());
+    }
+
+    @Test
+    void password_Test() {
+        UsersDto usersDto = new UsersDto();
+        usersDto.setPassword("abc123");
+        assertEquals("abc123", usersDto.getPassword());
+    }
+
+    @Test
+    void enabled_Test() {
+        UsersDto usersDto = new UsersDto();
+        usersDto.setEnabled((short)1);
+        assertEquals(1, usersDto.getEnabled());
+    }
+
+    @Test
+    void usersDtoConstructor_Test() {
+        UsersDto usersDto = new UsersDto("sammy@gmail.com", "abc123", (short)1);
+        assertEquals("sammy@gmail.com", usersDto.getUsername());
+    }
 }
