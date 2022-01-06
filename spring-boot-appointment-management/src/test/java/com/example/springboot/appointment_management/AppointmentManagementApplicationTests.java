@@ -21,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -131,6 +132,22 @@ class AppointmentManagementApplicationTests {
                 new Patient(2, "Bruce", "Henry", "bruce@gmail.com", "34", "8765512349")
         ).collect(Collectors.toList()));
         assertEquals(2,patientService.findAllPatients().size());
+    }
+
+    @Test
+    void findById_getPatientWithId() {
+        Patient patient = new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655");
+        Optional<Patient> patientById = Optional.of(patient);
+        when(patientRepository.findById(1)).thenReturn(patientById);
+        assertEquals(patientService.findPatientById(1), patient);
+    }
+
+    @Test
+    void findByEmail_getPatientWithId() {
+        Patient patient = new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655");
+        Optional<Patient> patientByEmail = Optional.of(patient);
+        when(patientRepository.findByEmail("sammy@gmail.com")).thenReturn(patientByEmail);
+        assertEquals(patientService.findPatientByEmail("sammy@gmail.com"), patient);
     }
 
     @Test
