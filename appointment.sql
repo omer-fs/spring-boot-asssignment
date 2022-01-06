@@ -68,7 +68,7 @@ DROP TABLE IF EXISTS `appointment`;
 CREATE TABLE `appointment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `doctor_name` varchar(128) DEFAULT NULL,
-  `appointment_date` varchar(128) DEFAULT NULL,
+  `appointment_date` date DEFAULT NULL,
   `appointment_time` varchar(128) DEFAULT NULL,
   `reason` varchar(128) DEFAULT NULL,
   `patient_id` int(11) DEFAULT NULL,
