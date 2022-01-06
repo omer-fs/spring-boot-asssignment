@@ -3,6 +3,7 @@ package com.example.springboot.appointment_management;
 
 import com.example.springboot.appointment_management.controller.PatientController;
 import com.example.springboot.appointment_management.dao.PatientRepository;
+import com.example.springboot.appointment_management.dto.PatientDto;
 import com.example.springboot.appointment_management.entity.Patient;
 import com.example.springboot.appointment_management.service.PatientService;
 import org.junit.jupiter.api.Test;
@@ -63,9 +64,31 @@ class PatientControllerTests {
         Optional<Patient> patientById = Optional.of(patient);
         when(patientRepository.findById(1)).thenReturn(patientById);
 
-        this.mockMvc.perform(get("/patients/showPatientDetails?patientId={patientId}",1))
+        this.mockMvc.perform(get("/patients/showPatientDetails?patientId={patientId}", 1))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("patient",hasProperty("firstName",is("Sammy"))))
+                .andExpect(model().attribute("patient", hasProperty("firstName", is("Sammy"))))
                 .andExpect(view().name("patients/patient-details"));
+    }
+
+    @Test
+    void showFormForAdd_displayPatientForm() throws Exception {
+
+        this.mockMvc.perform(get("/patients/showFormForAdd"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("patient", hasProperty("id", is(0))))
+                .andExpect(view().name("patients/patient-form"));
+    }
+
+    @Test
+    void showFormForUpdate_displayPatientForm() throws Exception {
+
+        Patient patient = new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655");
+        Optional<Patient> patientById = Optional.of(patient);
+        when(patientRepository.findById(1)).thenReturn(patientById);
+
+        this.mockMvc.perform(get("/patients/showFormForUpdate?patientId={patientId}", 1))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("patient", hasProperty("id", is(1))))
+                .andExpect(view().name("patients/patient-form"));
     }
 }
