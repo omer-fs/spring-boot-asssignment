@@ -16,13 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.boot.test.context.SpringBootTest;
+
 
 import java.util.Arrays;
 import java.util.Optional;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -68,5 +68,28 @@ class AppointmentControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("appointments",hasSize(2)))
                 .andExpect(view().name("appointments/list-appointments"));
+    }
+
+    @Test
+    void showFormForAdd_displayPatientForm() throws Exception {
+
+        this.mockMvc.perform(get("/appointments/showFormForAdd?patientId={patientId}",1))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("appointment",hasProperty("id",is(0))))
+                .andExpect(view().name("appointments/appointment-form"));
+    }
+
+    @Test
+    void showFormForUpdate_displayAppointmentForm() throws Exception {
+
+        Appointment appointment = new Appointment(1,"Dr. Samuel Jackson", "10/12/2022","10:30 AM to 12:30 PM","Fever");
+
+        Optional<Appointment> appointmentById = Optional.of(appointment);
+        when(appointmentRepository.findById(1)).thenReturn(appointmentById);
+
+        this.mockMvc.perform(get("/appointments/showFormForUpdate?patientId={patientId}&appointmentId={appointmentId}",1,1))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("appointment",hasProperty("id",is(1))))
+                .andExpect(view().name("appointments/appointment-form"));
     }
 }
