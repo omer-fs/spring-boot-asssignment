@@ -3,10 +3,13 @@ package com.example.springboot.appointment_management;
 
 import com.example.springboot.appointment_management.converter.AppointmentConverter;
 import com.example.springboot.appointment_management.converter.PatientConverter;
+import com.example.springboot.appointment_management.converter.UsersConverter;
 import com.example.springboot.appointment_management.dto.AppointmentDto;
 import com.example.springboot.appointment_management.dto.PatientDto;
+import com.example.springboot.appointment_management.dto.UsersDto;
 import com.example.springboot.appointment_management.entity.Appointment;
 import com.example.springboot.appointment_management.entity.Patient;
+import com.example.springboot.appointment_management.entity.Users;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -88,5 +91,41 @@ class ConverterTests {
         appointmentDtoList.add(appointmentDto2);
         List<Appointment> appointmentList = new AppointmentConverter().dtoToEntity(appointmentDtoList);
         assertEquals(2,appointmentList.size());
+    }
+
+    @Test
+    void entityToDto_convertsUsersEntityToUsersDto() {
+        Users users = new Users("sammy@gmail.com", "abc123", (short) 1);
+        UsersDto usersDto = new UsersConverter().entityToDto(users);
+        assertEquals("sammy@gmail.com",usersDto.getUsername());
+    }
+
+    @Test
+    void DtoToEntity_convertsUsersDtoToUsersEntity() {
+        UsersDto usersDto = new UsersDto("sammy@gmail.com", "abc123", (short) 1);
+        Users users = new UsersConverter().dtoToEntity(usersDto);
+        assertEquals("sammy@gmail.com",users.getUsername());
+    }
+
+    @Test
+    void entityToDto_convertsUsersEntityListToUsersDtoList() {
+        Users users1 = new Users("sammy@gmail.com", "abc123", (short) 1);
+        Users users2 = new Users("bruce@gmail.com", "pqr123", (short) 1);
+        List<Users> usersList = new ArrayList<>();
+        usersList.add(users1);
+        usersList.add(users2);
+        List<UsersDto> usersDtoList = new UsersConverter().entityToDto(usersList);
+        assertEquals(2,usersDtoList.size());
+    }
+
+    @Test
+    void dtoToEntity_convertsUsersDtoListToUsersEntityList() {
+        UsersDto usersDto1 = new UsersDto("sammy@gmail.com", "abc123", (short) 1);
+        UsersDto usersDto2 = new UsersDto("bruce@gmail.com", "pqr123", (short) 1);
+        List<UsersDto> usersDtoList = new ArrayList<>();
+        usersDtoList.add(usersDto1);
+        usersDtoList.add(usersDto2);
+        List<Users> usersList = new UsersConverter().dtoToEntity(usersDtoList);
+        assertEquals(2,usersList.size());
     }
 }
