@@ -24,9 +24,34 @@ class HomeControllerTests {
     }
 
     @Test
-    void loginPage_displaysLoginPage() throws Exception {
+    void loginPage_Test() throws Exception {
         mockMvc.perform(get("/loginPage"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login-page"));
+    }
+
+    @Test
+    void errorPage_Test() throws Exception {
+        mockMvc.perform(get("/error"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("error-page"));
+    }
+
+    @Test
+    void homePage_Test() throws Exception {
+        mockMvc.perform(get("/home"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("home-page"));
+    }
+
+    @Test
+    void accessDeniedPage_Test() throws Exception {
+        Exception exception = assertThrows(NestedServletException.class, () -> {
+            mockMvc.perform(get("/access-denied"))
+                    .andExpect(status().isNotFound());
+        });
+        String expectedMessage = "Request processing failed; nested exception is com.example.springboot.appointment_management.exception.MyException: Access Denied";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
     }
 }
