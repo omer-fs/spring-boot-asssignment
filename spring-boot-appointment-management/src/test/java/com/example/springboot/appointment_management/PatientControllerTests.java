@@ -46,7 +46,6 @@ class PatientControllerTests {
     @Test
     void listPatient_displaysAllPatients() throws Exception {
         Patient patient1 = new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655");
-
         Patient patient2 = new Patient(2, "Bruce", "Henry", "bruce@gmail.com", "34", "8765512349");
 
         when(patientService.findAllPatients()).thenReturn(Arrays.asList(patient1, patient2));

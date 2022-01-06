@@ -1,6 +1,7 @@
 package com.example.springboot.appointment_management;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import com.example.springboot.appointment_management.dao.AppointmentRepository;
 import com.example.springboot.appointment_management.dao.AuthoritiesRepository;
@@ -15,9 +16,13 @@ import com.example.springboot.appointment_management.service.UsersService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SpringBootTest
 class AppointmentManagementApplicationTests {
@@ -34,16 +39,16 @@ class AppointmentManagementApplicationTests {
     @Autowired
     private AuthoritiesService authoritiesService;
 
-    @Autowired
+    @MockBean
     private PatientRepository patientRepository;
 
-    @Autowired
+    @MockBean
     private AppointmentRepository appointmentRepository;
 
-    @Autowired
+    @MockBean
     private UsersRepository usersRepository;
 
-    @Autowired
+    @MockBean
     private AuthoritiesRepository authoritiesRepository;
 
 
@@ -109,4 +114,29 @@ class AppointmentManagementApplicationTests {
         assertEquals(2,patient.getAppointments().size());
     }
 
+    @Test
+    void toStringPatient_ConvertsToString() {
+        assertFalse(new Patient().toString().contains("@$"));
+    }
+
+    @Test
+    void toStringAppointment_ConvertsToString() {
+        assertFalse(new Appointment().toString().contains("@$"));
+    }
+
+    @Test
+    void findAll_getAllPatients() {
+        when(patientRepository.findAll()).thenReturn(Stream.of(
+                new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655"),
+                new Patient(2, "Bruce", "Henry", "bruce@gmail.com", "34", "8765512349")
+        ).collect(Collectors.toList()));
+        assertEquals(2,patientService.findAllPatients().size());
+    }
+
+    @Test
+    void save_savePatient() {
+        Patient patient = new Patient(1,"Sammy", "William", "sammy@gmail.com", "21", "1234987655");
+        patientService.savePatient(patient);
+        verify(patientRepository,times(1)).save(patient);
+    }
 }
