@@ -1,4 +1,53 @@
 package com.example.springboot.appointment_management;
 
+import com.example.springboot.appointment_management.dto.PatientDto;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+@SpringBootTest
 class DtoTests {
+
+    @Test
+    void patientId_Test() {
+        PatientDto patientDto = new PatientDto();
+        patientDto.setId(1);
+        assertEquals(1,patientDto.getId());
+    }
+
+    @Test
+    void firstName_Test() {
+        PatientDto patientDto = new PatientDto();
+        patientDto.setFirstName("Sammy");
+        assertEquals("Sammy", patientDto.getFirstName());
+    }
+
+    @Test
+    void lastName_Test() {
+        PatientDto patientDto = new PatientDto();
+        patientDto.setLastName("William");
+        assertEquals("William", patientDto.getLastName());
+    }
+
+    @Test
+    void email_Test() {
+        PatientDto patientDto = new PatientDto();
+        patientDto.setEmail("sammy@gmail.com");
+        assertEquals("sammy@gmail.com", patientDto.getEmail());
+    }
+
+    @Test
+    void age_Test() {
+        PatientDto patientDto = new PatientDto();
+        patientDto.setAge("22");
+        assertEquals("22", patientDto.getAge());
+    }
+
+    @Test
+    void phoneNumber_Test() {
+        PatientDto patientDto = new PatientDto();
+        patientDto.setPhoneNumber("1234567890");
+        assertEquals("1234567890", patientDto.getPhoneNumber());
+    }
+
 }

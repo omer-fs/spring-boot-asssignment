@@ -1,7 +1,6 @@
 package com.example.springboot.appointment_management;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 import com.example.springboot.appointment_management.dao.AppointmentRepository;
 import com.example.springboot.appointment_management.dao.AuthoritiesRepository;
