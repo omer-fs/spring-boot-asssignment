@@ -1,11 +1,13 @@
 package com.example.springboot.appointment_management;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 import com.example.springboot.appointment_management.dao.AppointmentRepository;
 import com.example.springboot.appointment_management.dao.AuthoritiesRepository;
 import com.example.springboot.appointment_management.dao.PatientRepository;
 import com.example.springboot.appointment_management.dao.UsersRepository;
+import com.example.springboot.appointment_management.entity.Appointment;
 import com.example.springboot.appointment_management.entity.Patient;
 import com.example.springboot.appointment_management.service.AppointmentService;
 import com.example.springboot.appointment_management.service.AuthoritiesService;
@@ -14,6 +16,11 @@ import com.example.springboot.appointment_management.service.UsersService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @SpringBootTest
@@ -85,4 +92,33 @@ class AppointmentManagementApplicationTests {
         patient.setPhoneNumber("1234987655");
         assertEquals("1234987655", patient.getPhoneNumber());
     }
+
+    @Test
+    void addAppointmentPatient_Test() {
+        Patient patient = new Patient(1,"Sammy", "William", "sammy@gmail.com", "21", "1234987655");
+        Appointment appointment = new Appointment("Dr. Samuel Jackson", "10/12/2022","10:30 AM to 12:30 PM","Fever");
+        patient.addAppointment(appointment);
+        assertEquals(1,patient.getAppointments().size());
+    }
+
+    @Test
+    void appointmentPatient_Test() {
+        Patient patient=new Patient();
+        Appointment appointment1 = new Appointment("Dr. Samuel Jackson", "10/12/2022","10:30 AM to 12:30 PM","Fever");
+        Appointment appointment2 = new Appointment("Dr. Samuel Jackson", "11/01/2022","10:30 AM to 12:30 PM","Stomach");
+        List<Appointment> appointments = new ArrayList<>();
+        appointments.add(appointment1);
+        patient.setAppointments(appointments);
+        patient.addAppointment(appointment2);
+        assertEquals(2,patient.getAppointments().size());
+    }
+
+//    @Test
+//    void findAll_getAllPatients() {
+//        when(patientRepository.findAll()).thenReturn(Stream.of(
+//                new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655"),
+//                new Patient(2, "Bruce", "Henry", "Bruce@gmail.com", "34", "8765512349")
+//        ).collect(Collectors.toList()));
+//        assertEquals(2,patientService.findAllPatients().size());
+//    }
 }

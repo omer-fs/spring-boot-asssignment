@@ -14,8 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
+import java.util.Optional;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -55,5 +56,16 @@ class PatientControllerTests {
                 .andExpect(view().name("patients/list-patients"));
     }
 
+    @Test
+    void showPatientDetails_displayDetailsofAPatient() throws Exception {
 
+        Patient patient = new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655");
+        Optional<Patient> patientById = Optional.of(patient);
+        when(patientRepository.findById(1)).thenReturn(patientById);
+
+        this.mockMvc.perform(get("/patients/showPatientDetails?patientId={patientId}",1))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("patient",hasProperty("firstName",is("Sammy"))))
+                .andExpect(view().name("patients/patient-details"));
+    }
 }
