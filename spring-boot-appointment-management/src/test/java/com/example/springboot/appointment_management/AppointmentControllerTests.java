@@ -5,6 +5,7 @@ package com.example.springboot.appointment_management;
 import com.example.springboot.appointment_management.controller.AppointmentController;
 import com.example.springboot.appointment_management.dao.AppointmentRepository;
 import com.example.springboot.appointment_management.dao.PatientRepository;
+import com.example.springboot.appointment_management.dto.AppointmentDto;
 import com.example.springboot.appointment_management.entity.Appointment;
 import com.example.springboot.appointment_management.entity.Patient;
 import com.example.springboot.appointment_management.service.AppointmentService;
@@ -24,6 +25,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -91,5 +93,46 @@ class AppointmentControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("appointment",hasProperty("id",is(1))))
                 .andExpect(view().name("appointments/appointment-form"));
+    }
+
+    @Test
+    void save_addAppointment() throws Exception {
+
+        Patient patient = new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655");
+        Optional<Patient> patientById = Optional.of(patient);
+        when(patientRepository.findById(1)).thenReturn(patientById);
+
+        Appointment appointment = new Appointment(1,"Dr. Samuel Jackson", "10/12/2022","10:30 AM to 12:30 PM","Fever");
+        appointmentService.saveAppointment(appointment);
+
+        this.mockMvc.perform(post("/appointments/save?patientId={patientId}",1)
+                        .param("id", "1")
+                        .param("doctorName","Dr. Samuel Jackson")
+                        .param("appointmentDate","10/12/2022")
+                        .param("appointmentTime","10:30 AM to 12:30 PM")
+                        .param("reason", "Fever")
+                        .sessionAttr("appointment",new AppointmentDto()))
+                .andExpect(status().isMovedTemporarily())
+                .andExpect(view().name("redirect:/appointments/list?patientId=1"))
+                .andExpect(redirectedUrl("/appointments/list?patientId=1"));
+    }
+
+    @Test
+    void save_addAppointmentValidationError() throws Exception {
+
+        Patient patient = new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655");
+        Optional<Patient> patientById = Optional.of(patient);
+        when(patientRepository.findById(1)).thenReturn(patientById);
+
+        this.mockMvc.perform(post("/appointments/save?patientId={patientId}",1)
+                        .param("id", "0")
+                        .param("doctorName","Dr. Samuel Jackson")
+                        .param("appointmentDate","10/12/2022")
+                        .param("appointmentTime","10:30 AM to 12:30 PM")
+                        .param("reason", "F")
+                        .sessionAttr("appointment",new AppointmentDto()))
+                .andExpect(status().isOk())
+                .andExpect(view().name("appointments/appointment-form"))
+                .andExpect(model().attribute("appointment",hasProperty("id",is(0))));
     }
 }
