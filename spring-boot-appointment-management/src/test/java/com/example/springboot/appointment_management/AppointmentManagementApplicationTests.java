@@ -18,9 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 
 @SpringBootTest
 class AppointmentManagementApplicationTests {
@@ -112,12 +109,4 @@ class AppointmentManagementApplicationTests {
         assertEquals(2,patient.getAppointments().size());
     }
 
-//    @Test
-//    void findAll_getAllPatients() {
-//        when(patientRepository.findAll()).thenReturn(Stream.of(
-//                new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655"),
-//                new Patient(2, "Bruce", "Henry", "Bruce@gmail.com", "34", "8765512349")
-//        ).collect(Collectors.toList()));
-//        assertEquals(2,patientService.findAllPatients().size());
-//    }
 }
