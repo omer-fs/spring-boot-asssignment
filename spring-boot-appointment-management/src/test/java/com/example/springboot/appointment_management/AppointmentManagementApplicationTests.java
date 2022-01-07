@@ -7,8 +7,10 @@ import com.example.springboot.appointment_management.dao.AppointmentRepository;
 import com.example.springboot.appointment_management.dao.AuthoritiesRepository;
 import com.example.springboot.appointment_management.dao.PatientRepository;
 import com.example.springboot.appointment_management.dao.UsersRepository;
+import com.example.springboot.appointment_management.dto.AppointmentDto;
 import com.example.springboot.appointment_management.entity.Appointment;
 import com.example.springboot.appointment_management.entity.Patient;
+import com.example.springboot.appointment_management.exception.MyException;
 import com.example.springboot.appointment_management.service.AppointmentService;
 import com.example.springboot.appointment_management.service.AuthoritiesService;
 import com.example.springboot.appointment_management.service.PatientService;
@@ -143,11 +145,31 @@ class AppointmentManagementApplicationTests {
     }
 
     @Test
+    void findById_exceptionTest() {
+        Exception exception = assertThrows(MyException.class, () -> {
+            patientService.findPatientById(2);
+        });
+        String expectedMessage = "Could not find the Patient Id - 2";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+    @Test
     void findByEmail_getPatientWithId() {
         Patient patient = new Patient(1, "Sammy", "William", "sammy@gmail.com", "21", "1234987655");
         Optional<Patient> patientByEmail = Optional.of(patient);
         when(patientRepository.findByEmail("sammy@gmail.com")).thenReturn(patientByEmail);
         assertEquals(patientService.findPatientByEmail("sammy@gmail.com"), patient);
+    }
+
+    @Test
+    void findByEmail_exceptionTest() {
+        Exception exception = assertThrows(MyException.class, () -> {
+            patientService.findPatientByEmail("sammy@gmail.com");
+        });
+        String expectedMessage = "Could not find the Patient - sammy@gmail.com";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
     }
 
     @Test
@@ -161,6 +183,41 @@ class AppointmentManagementApplicationTests {
     void deleteById_deletePatientWithId() {
         patientService.deletePatientById(1);
         verify(patientRepository,times(1)).deleteById(1);
+    }
+
+    @Test
+    void appointmentId_Test() {
+        Appointment appointment = new Appointment();
+        appointment.setId(1);
+        assertEquals(1, appointment.getId());
+    }
+
+    @Test
+    void doctorName_Test() {
+        Appointment appointment = new Appointment();
+        appointment.setDoctorName("Dr. Samuel Jackson");
+        assertEquals("Dr. Samuel Jackson",appointment.getDoctorName());
+    }
+
+    @Test
+    void appointmentDate_Test() {
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentDate("11/12/2021");
+        assertEquals("11/12/2021",appointment.getAppointmentDate());
+    }
+
+    @Test
+    void appointmentTime_Test() {
+        Appointment appointment = new Appointment();
+        appointment.setAppointmentTime("10:30 AM to 12:30 PM");
+        assertEquals("10:30 AM to 12:30 PM",appointment.getAppointmentTime());
+    }
+
+    @Test
+    void reason_Test() {
+        Appointment appointment = new Appointment();
+        appointment.setReason("Fever");
+        assertEquals("Fever",appointment.getReason());
     }
 
     @Test
