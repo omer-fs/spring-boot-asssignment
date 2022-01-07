@@ -221,6 +221,24 @@ class AppointmentManagementApplicationTests {
     }
 
     @Test
+    void findAppointmentWithId_Test() {
+        Appointment appointment = new Appointment(1,"Dr. Samuel Jackson", "10/12/2022","10:30 AM to 12:30 PM","Fever");
+        Optional<Appointment> appointmentById = Optional.of(appointment);
+        when(appointmentRepository.findById(1)).thenReturn(appointmentById);
+        assertEquals(appointmentService.findAppointmentById(1),appointment);
+    }
+
+    @Test
+    void findAppointmentWithId_ExceptionTest() {
+        Exception exception = assertThrows(MyException.class, () -> {
+            appointmentService.findAppointmentById(2);
+        });
+        String expectedMessage = "Could not find the Appointment id - 2";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+    @Test
     void save_saveAppointment() {
         Appointment appointment = new Appointment("Dr. Samuel Jackson", "10/12/2022","10:30 AM to 12:30 PM","Fever");
         appointmentService.saveAppointment(appointment);
