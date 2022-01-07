@@ -156,4 +156,25 @@ class AppointmentManagementApplicationTests {
         patientService.savePatient(patient);
         verify(patientRepository,times(1)).save(patient);
     }
+
+    @Test
+    void deleteById_deletePatientWithId() {
+        patientService.deletePatientById(1);
+        verify(patientRepository,times(1)).deleteById(1);
+    }
+
+    @Test
+    void save_saveAppointment() {
+        Appointment appointment = new Appointment("Dr. Samuel Jackson", "10/12/2022","10:30 AM to 12:30 PM","Fever");
+        appointmentService.saveAppointment(appointment);
+        verify(appointmentRepository,times(1)).save(appointment);
+    }
+
+    @Test
+    void delete_deleteAppointmentWithId() {
+        appointmentService.deleteAppointmentById(1);
+        verify(appointmentRepository,times(1)).deleteById(1);
+    }
+
+
 }
